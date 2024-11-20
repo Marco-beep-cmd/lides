@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Diapositivas</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Estilos para la vista de presentación (computadoras) */
+        .presentation-view {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            width: 80%;
+            height: 80%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+        }
+
+        /* Estilos para la vista de control (móvil) */
+        .control-view {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .control-buttons {
+            display: grid;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        button:active {
+            background: #0056b3;
+        }
+
+        .status-panel {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: 200px;
+            background: #eee;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        @media (min-width: 768px) {
+            .control-view {
+                display: none;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .presentation-view {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Vista para computadoras (solo diapositivas) -->
+    <div class="presentation-view">
+        <div class="slide">
+            <div>Diapositiva Actual</div>
+        </div>
+    </div>
+
+    <!-- Vista para móvil (controles) -->
+    <div class="control-view">
+        <h2>Control de Presentación</h2>
+        
+        <div class="thumbnail">
+            Vista previa de la diapositiva actual
+        </div>
+
+        <div class="control-buttons">
+            <button onclick="prevSlide()">← Diapositiva Anterior</button>
+            <button onclick="nextSlide()">Siguiente Diapositiva →</button>
+        </div>
+
+        <div class="status-panel">
+            Diapositiva <span id="current">1</span> de <span id="total">10</span>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 10;
+
+        function updateSlideCounter() {
+            document.getElementById('current').textContent = currentSlide;
+            document.getElementById('total').textContent = totalSlides;
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlideCounter();
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlideCounter();
+            }
+        }
+
+        // Detectar si es dispositivo móvil
+        if (window.innerWidth < 768) {
+            document.querySelector('.presentation-view').style.display = 'none';
+            document.querySelector('.control-view').style.display = 'block';
+        } else {
+            document.querySelector('.presentation-view').style.display = 'flex';
+            document.querySelector('.control-view').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
